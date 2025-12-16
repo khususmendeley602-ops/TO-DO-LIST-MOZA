@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0fdf4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .todo-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 320px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 8px;
+            background: #16a34a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        ul {
+            padding: 0;
+            margin-top: 15px;
+        }
+
+        li {
+            list-style: none;
+            background: #dcfce7;
+            margin-bottom: 8px;
+            padding: 8px;
+            display: flex;
+            justify-content: space-between;
+            border-radius: 5px;
+        }
+
+        span {
+            cursor: pointer;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="todo-box">
+    <h2>To Do List</h2>
+    <input type="text" id="task" placeholder="Masukkan tugas">
+    <button onclick="addTask()">Tambah</button>
+    <ul id="list"></ul>
+</div>
+
+<script>
+    const list = document.getElementById("list");
+
+    function loadTask() {
+        list.innerHTML = localStorage.getItem("tasks") || "";
+    }
+
+    function addTask() {
+        const input = document.getElementById("task");
+        if (input.value === "") return;
+
+        const li = document.createElement("li");
+        li.innerHTML = input.value + " <span onclick='removeTask(this)'>×</span>";
+        list.appendChild(li);
+
+        input.value = "";
+        saveTask();
+    }
+
+    function removeTask(el) {
+        el.parentElement.remove();
+        saveTask();
+    }
+
+    function saveTask() {
+        localStorage.setItem("tasks", list.innerHTML);
+    }
+
+    loadTask();
+</script>
+
+</body>
+</html>
